@@ -21,13 +21,13 @@ app.get("/", function (req, res) {
 // your first API endpoint...
 app.get("/api/:time", function (req, res) {
 	const date = new Date(req.params.time)
-		if (date) {
+		if (date.valueOf()) {
 			const outObj = { unix: date.valueOf(), utc: date.toUTCString() }
 			res.json(outObj)
 		} else {
 			// try parsing as timestamp
 			const date = new Date(parseInt(req.params.time))
-			if (date) {
+			if (date.valueOf()) {
 				const outObj = { unix: date.valueOf(), utc: date.toUTCString() }
 				res.json(outObj)
 			} else {
@@ -36,18 +36,6 @@ app.get("/api/:time", function (req, res) {
 			}
 		}
 })
-// app.get("/api/:time", function (req, res) {
-// 	if (req.params.time) {
-// 		// console.log(req.params.time.split('-').length, req.params.time)
-// 		const dateString = req.params.time.split("-").length > 1 ? req.params.time : parseInt(req.params.time)
-// 		const date = new Date(dateString)
-// 		const outObj = { unix: date.valueOf(), utc: date.toUTCString() }
-// 		res.json(outObj)
-// 	} else {
-// 		const date = new Date()
-// 		res.json({ unix: date.valueOf(), utc: date.toUTCString() })
-// 	}
-// })
 app.get("/api/", function (req, res) {
 	const date = new Date()
 	res.json({ unix: date.valueOf(), utc: date.toUTCString() })
