@@ -20,15 +20,37 @@ app.get("/", function (req, res) {
 
 // your first API endpoint...
 app.get("/api/:time", function (req, res) {
-	if (req.params.time) {
-    // console.log(req.params.time.split('-').length, req.params.time)
-    const dateString = req.params.time.split('-').length > 1 ? req.params.time : parseInt(req.params.time)
-		const date = new Date(dateString)
-		const outObj = { unix: date.valueOf(), utc: date.toUTCString() }
-		res.json(outObj)
-	} else {
-		res.status(400).send("Malformed request")
-	}
+	const date = new Date(req.params.time)
+		if (date) {
+			const outObj = { unix: date.valueOf(), utc: date.toUTCString() }
+			res.json(outObj)
+		} else {
+			// try parsing as timestamp
+			const date = new Date(parseInt(req.params.time))
+			if (date) {
+				const outObj = { unix: date.valueOf(), utc: date.toUTCString() }
+				res.json(outObj)
+			} else {
+				// invalid date
+        res.json({error: "Invalid Date"})
+			}
+		}
+})
+// app.get("/api/:time", function (req, res) {
+// 	if (req.params.time) {
+// 		// console.log(req.params.time.split('-').length, req.params.time)
+// 		const dateString = req.params.time.split("-").length > 1 ? req.params.time : parseInt(req.params.time)
+// 		const date = new Date(dateString)
+// 		const outObj = { unix: date.valueOf(), utc: date.toUTCString() }
+// 		res.json(outObj)
+// 	} else {
+// 		const date = new Date()
+// 		res.json({ unix: date.valueOf(), utc: date.toUTCString() })
+// 	}
+// })
+app.get("/api/", function (req, res) {
+	const date = new Date()
+	res.json({ unix: date.valueOf(), utc: date.toUTCString() })
 })
 
 // Listen on port set in environment variable or default to 3000
