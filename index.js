@@ -21,7 +21,7 @@ app.get("/", function (req, res) {
 // your first API endpoint...
 app.get("/api/:time", function (req, res) {
 	if (req.params.time) {
-    console.log(req.params.time.split('-').length, req.params.time)
+    // console.log(req.params.time.split('-').length, req.params.time)
 		const date = new Date(req.params.time.split('-').length > 1 ? req.params.time : parseInt(req.params.time) )
 		const outObj = { unix: date.valueOf(), utc: date.toUTCString() }
 		res.json(outObj)
